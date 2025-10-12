@@ -5,7 +5,7 @@ const techLogos = [
   { node: <FaDiscord/>, title: "Discord", href: "https://www.discordapp.com/users/508340160455245832" },
   { node: <FaYoutube />, title: "YouTube", href: "https://www.youtube.com/@szimyyyy" },
   { node: <FaGithub />, title: "GitHub", href: "https://github.com/szimy" },
-  { src: "/gsblue.png", alt: "GS Blue", href: "https://discord.gg/ZBQezgQEpy"} 
+  { src: `${import.meta.env.BASE_URL}gsblue.png`, alt: "GS Blue", href: "https://discord.gg/ZBQezgQEpy"} 
 ];
 //Background Music import
 import BackgroundMusic from './components/BackgroundMusic';

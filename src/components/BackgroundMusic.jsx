@@ -48,11 +48,6 @@ function BackgroundMusic() {
 
         audio.addEventListener('ended', playNextTrack);
 
-        // 💥 Add a listener to start the audio on any user click
-        // This is a common workaround if the initial play is blocked.
-        document.addEventListener('click', handleUserInteraction, { once: true });
-
-
         return () => {
             audio.removeEventListener('ended', playNextTrack);
             document.removeEventListener('click', handleUserInteraction);
