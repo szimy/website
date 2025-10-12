@@ -1,0 +1,99 @@
+html{
+    font-size: 20px;
+}
+body{
+background-color: black;
+}
+/* ------------------------------------------- */
+/* 1. STYLES FOR LARGE SCREENS (Desktop First) */
+/* ------------------------------------------- */
+
+h1 {
+    font-size: 4rem; /* 64px */
+    margin-bottom: 20px;
+}
+
+/* ------------------------------------------- */
+/* 2. MEDIA QUERY FOR SMALL SCREENS (Mobile)   */
+/* ------------------------------------------- */
+
+/* This rule applies only when the screen size is 768px or smaller */
+@media (max-width: 768px) {
+    
+    /* When on a smaller screen, reduce the size of the biggest element (h1) */
+    h1 {
+        font-size: 2.5rem; /* ~40px - much smaller and won't overflow */
+        margin-bottom: 15px;
+    }
+
+    /* You can also reduce the base font size slightly for all elements */
+    html {
+        font-size: 15px; /* Makes 1rem = 15px instead of 16px */
+    }
+}
+/* Target the class passed via the 'className' prop */
+.full-screen-bg {
+    position: fixed !important; 
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100vh !important; 
+    z-index: 1 !important; 
+}
+
+/* Also ensure the canvas inside is styled */
+.full-screen-bg > canvas { 
+    width: 100% !important;
+    height: 100% !important; 
+    display: block !important;
+}
+.comingsoon {
+    /* 1. LAYER & POSITIONING */
+    position: relative; /* 👈 Allows z-index to work and stacks it */
+    z-index: 10;        /* 👈 Must be HIGHER than the background's z-index (1) */
+
+    /* 2. SIZING & CENTERING */
+    width: 100%;
+    height: 100vh; /* 👈 Must match viewport height to center text vertically */
+    
+    display: flex;
+    justify-content: center; /* Centers horizontally */
+    align-items: center;     /* Centers vertically */
+    text-align: center;
+    
+    /* 3. APPEARANCE */
+    color: white; /* Ensure text is visible against the background */
+    font-size: 4rem; 
+    font-family: "BBH Sans Bartle", sans-serif;
+
+    pointer-events: none;
+}
+.audio-prompt {
+    /* Position it near the bottom-right corner */
+    position: fixed;
+    top: 20px; /* Above the LogoLoop */
+    left: 20px;
+    z-index: 50; /* Ensure it is on top of everything */
+    
+    /* Styling for visibility */
+    padding: 8px 12px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    font-size: 0.9rem;
+    cursor: pointer;
+    border-radius: 4px;
+    font-family: "Oswald", sans-serif;
+    /* Animation to draw attention */
+    animation: pulse 1.5s infinite alternate;
+}
+
+@keyframes pulse {
+    from {
+        opacity: 0.8;
+        transform: scale(1);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+}

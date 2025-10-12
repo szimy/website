@@ -1,0 +1,15 @@
+/* src/index.css */
+
+/* Reset margins and ensure full height for the viewport */
+html, 
+body, 
+#root { /* #root is the main div where React renders */
+    height: 100%; 
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /* Good practice to include this */
+}
+
+/* You might want to remove any default styles that came with the template here */
+/* For example, remove any default background-color or font-size on body */
