@@ -68,22 +68,6 @@ h1 {
 
     pointer-events: none;
 }
-.audio-prompt-overlay {
-    /* CRITICAL: Cover the entire viewport */
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: 9999; /* Must be on top of everything */
-    background-color: rgba(0, 0, 0, 0.01); /* Nearly transparent, but clickable */
-    cursor: pointer;
-    
-    /* Center the prompt text */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
 
 /* Re-style the actual text prompt to sit at the top-left */
 .audio-prompt {
@@ -101,3 +85,59 @@ h1 {
     animation: pulse 1.5s infinite alternate;
     font-family: Oswald, sans-serif;
 }  
+/* --- Enter Page Overlay Styles --- */
+
+.audio-prompt-overlay {
+    /* CRITICAL: Cover the entire viewport */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 9999; /* Must be on top of everything */
+    background-color: #000000; /* Solid background */
+    cursor: pointer;
+    
+    /* Center all text content */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white; /* Text color */
+}
+
+/* Style the main text container */
+.enter-page-content {
+    text-align: center;
+    padding: 20px;
+    opacity: 0;
+    animation: fadeIn 1.5s forwards 0.5s; /* Fade in animation */
+}
+
+.enter-page-content h1 {
+    font-size: 5rem;
+    margin: 0;
+    letter-spacing: 0.2em;
+    font-weight: 300;
+}
+
+.enter-page-content p {
+    font-size: 1.2rem;
+    margin-top: 20px;
+    font-weight: 200;
+}
+
+@keyframes fadeIn {
+    to { opacity: 1; }
+}
+
+/* --- Optional: Custom Image Sizing Fix (Re-added, just in case) --- */
+/* Target the item that holds your custom image (e.g., the 4th item) */
+/* This ensures the logo loop remains compact after the entry screen vanishes. */
+.logoloop-fixed .logoloop__list-item:nth-child(4) {
+    max-width: 35px !important;  
+    max-height: 35px !important; 
+}
+.logoloop-fixed .logoloop__list-item:nth-child(4) img {
+    width: 100% !important; 
+    height: 100% !important; 
+}

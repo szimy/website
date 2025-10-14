@@ -1,27 +1,24 @@
-// src/components/BackgroundMusic.jsx
-
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 // IMPORTANT: Use import.meta.env.BASE_URL for deployment path correctness
 const BASE_URL = import.meta.env.BASE_URL;
 
+// List of your audio tracks with the deployment prefix
 const trackList = [
     `${BASE_URL}audio/track1.mp3`,
     `${BASE_URL}audio/track2.mp3`,
     `${BASE_URL}audio/track3.mp3`,
-    `${BASE_URL}audio/track4.mp3`,
-    `${BASE_URL}audio/track5.mp3`,
 ];
 
-function BackgroundMusic() {
+function SiteEntryManager({ isBlocked, onUnlock }) {
     const audioRef = useRef(null);
-    const [isBlocked, setIsBlocked] = useState(true); // Start assuming audio is blocked
 
     // Function to handle moving to the next track in the playlist loop
     const playNextTrack = () => {
         const audio = audioRef.current;
         if (!audio) return;
         
+        // Simple logic to move to the next track index
         const currentIndex = trackList.findIndex(track => audio.src.includes(track));
         let nextIndex = (currentIndex + 1) % trackList.length;
         
@@ -29,36 +26,33 @@ function BackgroundMusic() {
         audio.play().catch(e => console.error("Loop play failed:", e));
     };
 
-    // 💥 NEW: This runs on the *full-screen* click to unlock audio
-    const unlockAudio = () => {
+    // Function to handle the full-screen click to unlock the site and start music
+    const unlockSiteAndAudio = () => {
         const audio = audioRef.current;
-        if (audio && audio.paused) {
-            audio.play().then(() => {
-                // Audio started successfully, now unblock the component
-                setIsBlocked(false); 
-            }).catch(e => {
-                console.error("Audio unlock failed:", e);
-                // If it fails here, the prompt will remain visible
-            });
-        }
+        
+        // 1. Attempt to play audio
+        audio.play().then(() => {
+            // 2. If audio successfully starts, call the unlock callback
+            onUnlock(); 
+        }).catch(e => {
+            console.error("Audio unlock failed, but proceeding:", e);
+            // 3. Even if audio fails (rare), proceed to unlock the site content
+            onUnlock();
+        });
     };
 
 
     useEffect(() => {
         const audio = audioRef.current;
         
-        // 1. Initial Setup
+        // 1. Initial Setup: Randomly select a starting track
         const randomIndex = Math.floor(Math.random() * trackList.length);
         audio.src = trackList[randomIndex];
         audio.volume = 0.5;
 
-        // 2. Initial Play Attempt
-        audio.play().then(() => {
-            // If play succeeds (unlikely), set blocked to false immediately
-            setIsBlocked(false); 
-        }).catch(e => {
-            // Play failed (likely), so we remain blocked (true)
-            console.log("Autoplay blocked. Prompting user.");
+        // 2. Initial Play Attempt (will likely be blocked)
+        audio.play().catch(e => {
+            console.log("Autoplay blocked. Prompting user to enter.");
         });
 
         // 3. Set up the 'ended' event for continuous looping
@@ -81,14 +75,16 @@ function BackgroundMusic() {
                 style={{ display: 'none' }}
             />
             
-            {/* 💥 NEW: Full-screen overlay shown ONLY when audio is blocked */}
+            {/* Full-screen overlay shown ONLY if the site is blocked */}
             {isBlocked && (
                 <div 
-                    onClick={unlockAudio}
-                    className="audio-prompt-overlay" // New class for full screen
+                    onClick={unlockSiteAndAudio} // Single click unlocks site and music
+                    className="audio-prompt-overlay" 
                 >
-                    <div className="audio-prompt">
-                        CLICK ANYWHERE TO ENABLE SOUND 🔈
+                    <div className="enter-page-content">
+                        <p>Welcome.</p>
+                        <h1>E N T E R &nbsp; S I T E</h1>
+                        <p className="small-text">Click anywhere to proceed and enable sound.</p>
                     </div>
                 </div>
             )}
@@ -96,4 +92,4 @@ function BackgroundMusic() {
     );
 }
 
-export default BackgroundMusic;
+export default SiteEntryManager;
