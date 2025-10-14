@@ -1,57 +1,45 @@
+// src/components/BackgroundMusic.jsx
+
 import React, { useEffect, useRef, useState } from 'react';
 
-// IMPORTANT: Use import.meta.env.BASE_URL to correctly load assets from 
-// the /your-repo-name/ subdirectory on GitHub Pages.
+// IMPORTANT: Use import.meta.env.BASE_URL for deployment path correctness
 const BASE_URL = import.meta.env.BASE_URL;
 
-// List of your audio tracks with the deployment prefix
 const trackList = [
     `${BASE_URL}audio/track1.mp3`,
     `${BASE_URL}audio/track2.mp3`,
     `${BASE_URL}audio/track3.mp3`,
+    `${BASE_URL}audio/track4.mp3`,
+    `${BASE_URL}audio/track5.mp3`,
 ];
 
 function BackgroundMusic() {
     const audioRef = useRef(null);
-    const [isPlaying, setIsPlaying] = useState(false);
-    
+    const [isBlocked, setIsBlocked] = useState(true); // Start assuming audio is blocked
+
     // Function to handle moving to the next track in the playlist loop
     const playNextTrack = () => {
         const audio = audioRef.current;
         if (!audio) return;
         
-        // Find the index of the currently playing track
         const currentIndex = trackList.findIndex(track => audio.src.includes(track));
-        
-        // Calculate the index for the next track (loops back to 0)
         let nextIndex = (currentIndex + 1) % trackList.length;
         
-        // Assign the new track source and play
         audio.src = trackList[nextIndex];
         audio.play().catch(e => console.error("Loop play failed:", e));
     };
 
-
-    // Function to handle user interaction (click) to start or resume music
-    const handleUserInteraction = () => {
+    // 💥 NEW: This runs on the *full-screen* click to unlock audio
+    const unlockAudio = () => {
         const audio = audioRef.current;
-        
-        // 1. Check if audio is currently paused or stopped
         if (audio && audio.paused) {
-            
-            // 2. Immediately set state to true to hide the prompt
-            // We assume the interaction will succeed.
-            setIsPlaying(true); 
-
-            // 3. Attempt to play the audio
-            audio.play().catch(e => {
-                console.error("Play failed after user interaction:", e);
-                // If play fails (very rare after a click), you might revert the state
-                // setIsPlaying(false); 
+            audio.play().then(() => {
+                // Audio started successfully, now unblock the component
+                setIsBlocked(false); 
+            }).catch(e => {
+                console.error("Audio unlock failed:", e);
+                // If it fails here, the prompt will remain visible
             });
-            
-            // 4. Remove the initial document listener
-            document.removeEventListener('click', handleUserInteraction); 
         }
     };
 
@@ -59,32 +47,29 @@ function BackgroundMusic() {
     useEffect(() => {
         const audio = audioRef.current;
         
-        // 1. Initial Setup: Randomly select a starting track
+        // 1. Initial Setup
         const randomIndex = Math.floor(Math.random() * trackList.length);
         audio.src = trackList[randomIndex];
-        audio.volume = 0.5; // Set your preferred volume (0.0 to 1.0)
-        
-        // 2. Initial Play Attempt (will likely be blocked by browser)
+        audio.volume = 0.5;
+
+        // 2. Initial Play Attempt
         audio.play().then(() => {
-            setIsPlaying(true); // Autoplay succeeded
+            // If play succeeds (unlikely), set blocked to false immediately
+            setIsBlocked(false); 
         }).catch(e => {
-            console.log("Autoplay blocked. Waiting for user interaction.");
+            // Play failed (likely), so we remain blocked (true)
+            console.log("Autoplay blocked. Prompting user.");
         });
 
         // 3. Set up the 'ended' event for continuous looping
         audio.addEventListener('ended', playNextTrack);
 
-        // 4. Attach initial click listener to the entire document as a reliable fallback
-        document.addEventListener('click', handleUserInteraction, { once: true });
-
-
-        // 5. Cleanup function
+        // 4. Cleanup
         return () => {
             audio.removeEventListener('ended', playNextTrack);
-            document.removeEventListener('click', handleUserInteraction);
             audio.pause();
         };
-    }, []); // Runs only once on mount
+    }, []); 
 
     return (
         <>
@@ -94,16 +79,17 @@ function BackgroundMusic() {
                 autoPlay 
                 controls={false}
                 style={{ display: 'none' }}
-                // Note: The 'loop' attribute is NOT used; looping is handled by playNextTrack
             />
             
-            {/* The visible prompt, shown only if audio is NOT playing */}
-            {!isPlaying && (
+            {/* 💥 NEW: Full-screen overlay shown ONLY when audio is blocked */}
+            {isBlocked && (
                 <div 
-                    onClick={handleUserInteraction} // Explicitly clickable
-                    className="audio-prompt" 
+                    onClick={unlockAudio}
+                    className="audio-prompt-overlay" // New class for full screen
                 >
-                    CLICK ANYWHERE TO ENABLE SOUND 🔈
+                    <div className="audio-prompt">
+                        CLICK ANYWHERE TO ENABLE SOUND 🔈
+                    </div>
                 </div>
             )}
         </>
