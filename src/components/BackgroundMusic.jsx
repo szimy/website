@@ -1,3 +1,5 @@
+// src/components/BackgroundMusic.jsx
+
 import React, { useEffect, useRef, useState } from 'react';
 
 // IMPORTANT: Use import.meta.env.BASE_URL for deployment path correctness
@@ -10,10 +12,9 @@ const trackList = [
     // Add/remove tracks as needed
 ];
 
-function SiteEntryManager() {
+function BackgroundMusic() {
     const audioRef = useRef(null);
-    // State is now internal, just controlling the small notification
-    const [isBlocked, setIsBlocked] = useState(true); 
+    const [isBlocked, setIsBlocked] = useState(true); // Start assuming audio is blocked
 
     // Function to handle moving to the next track in the playlist loop
     const playNextTrack = () => {
@@ -27,15 +28,16 @@ function SiteEntryManager() {
         audio.play().catch(e => console.error("Loop play failed:", e));
     };
 
-    // Handler for the small 'Click to Play' prompt
-    const handleUserInteraction = () => {
+    // 💥 NEW: This runs on the *full-screen* click to unlock audio
+    const unlockAudio = () => {
         const audio = audioRef.current;
         if (audio && audio.paused) {
             audio.play().then(() => {
-                // If playback is successful, hide the prompt
+                // Audio started successfully, now unblock the component
                 setIsBlocked(false); 
             }).catch(e => {
-                console.error("Manual audio play failed:", e);
+                console.error("Audio unlock failed:", e);
+                // If it fails here, the prompt will remain visible
             });
         }
     };
@@ -50,11 +52,11 @@ function SiteEntryManager() {
 
         // 2. Initial Play Attempt
         audio.play().then(() => {
-            // If play succeeds, set blocked to false immediately
+            // If play succeeds (unlikely), set blocked to false immediately
             setIsBlocked(false); 
         }).catch(e => {
-            // If play fails, we remain blocked (true) to show the prompt
-            console.log("Autoplay blocked. Showing small prompt.");
+            // Play failed (likely), so we remain blocked (true)
+            console.log("Autoplay blocked. Prompting user.");
         });
 
         // 3. Set up the 'ended' event for continuous looping
@@ -82,14 +84,19 @@ function SiteEntryManager() {
                 style={{ display: 'none' }}
             />
             
-            {/* Small prompt shown only when audio is blocked */}
+            {/* 💥 NEW: Full-screen overlay shown ONLY when audio is blocked */}
             {isBlocked && (
-                <div className="audio-prompt">
-                    CLICK ANYWHERE TO ENABLE SOUND 🔈
+                <div 
+                    onClick={unlockAudio}
+                    className="audio-prompt-overlay" // New class for full screen
+                >
+                    <div className="audio-prompt">
+                        CLICK ANYWHERE TO ENABLE SOUND 🔈
+                    </div>
                 </div>
             )}
         </>
     );
 }
 
-export default SiteEntryManager;
+export default BackgroundMusic;

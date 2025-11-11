@@ -27,53 +27,44 @@ const socialLogos = [
 ];
 
 function App() {
-    // Note: We don't need 'isBlocked' state here anymore, but keeping particlesInit
-    const particlesInit = async (main) => {
-        await loadSlim(main);
-    };
-
-    return (
-        <>
-            {/* 1. Audio Manager: It will display its own small prompt if sound is blocked */}
-            <SiteEntryManager /> 
-            
-            {/* 2. The main content renders UNCONDITIONALLY */}
-            <main className="comingsoon">
-                {/* Particle Background */}
-                <Particles
-                    id="tsparticles"
-                    init={particlesInit}
-                    options={{
-                        fullScreen: { enable: true, zIndex: -1 },
-                        particles: {
-                            number: { value: 50 },
-                            opacity: { value: 0.5 },
-                            shape: { type: "circle" },
-                            size: { value: 3 },
-                            links: { enable: true, distance: 150, color: "#ffffff", opacity: 0.4, width: 1 },
-                            move: { enable: true, speed: 1 },
-                        },
-                    }}
-                />
-
-                <div className="content-container">
-                    <h1>S Z I M Y</h1>
-                    <h2>Coming Soon.</h2>
-                    <LogoLoop 
-                        logos={socialLogos} 
-                        logoHeight={32}
-                        gap={20}
-                        className="logoloop-fixed"
-                        style={{ 
-                            position: 'fixed', 
-                            bottom: '20px', 
-                            right: '20px',
-                        }}
-                    />
-                </div>
-            </main>
-        </>
-    );
+  
+  return (
+    <>
+    {/* Particle Background */}
+  <Particles
+    particleColors={['#ffffff', '#ffffff']}
+    particleCount={200}
+    particleSpread={10}
+    speed={0.1}
+    particleBaseSize={100}
+    moveParticlesOnHover={true}
+    alphaParticles={false}
+    disableRotation={false}
+    className="full-screen-bg"
+  />
+   {/* 2. Coming Soon Text (Layer 2) */}
+      <div className="comingsoon">
+        <FadeContent blur={true} duration={1000} easing="ease-out" initialOpacity={0}>
+          <h1>Coming<br /> Soon</h1>
+        </FadeContent>
+      </div>
+      {/* 3. Logo Loop (Layer 3) */}
+      <LogoLoop
+        logos={techLogos}
+        speed={120}
+        direction="left"
+        logoHeight={48}
+        gap={40}
+        pauseOnHover
+        scaleOnHover
+        fadeOut
+        fadeOutColor="#ffffff"
+        ariaLabel="Technology partners"
+      />
+      {/* Background Music Component */}
+      <BackgroundMusic />
+    </>
+  );
 }
 
 export default App;
