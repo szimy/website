@@ -88,7 +88,7 @@ function BackgroundMusic() {
             {isBlocked && (
                 <div 
                     onClick={unlockAudio}
-                    className="audio-prompt-overlay" // New class for full screen
+                    
                 >
                     <div className="audio-prompt">
                         CLICK ANYWHERE TO ENABLE SOUND 🔈

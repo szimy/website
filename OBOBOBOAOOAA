@@ -1,0 +1,71 @@
+[33mcommit 4de9d298bf3f7c03cf94e275cef9a3e6c9d17ccf[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Author: Szimy <simplymain2021@gmail.com>
+Date:   Tue Nov 11 19:39:26 2025 +0000
+
+    Scrapped the overlay idea
+
+[33mcommit 91ab17442a12443e1520f0cb33ab07b8902ebbcd[m
+Author: Szimy <simplymain2021@gmail.com>
+Date:   Tue Nov 11 19:34:13 2025 +0000
+
+    Updated App.jsx once again
+
+[33mcommit 77ccc5e60aa7dd6016f8016d16c1257800bd6933[m
+Author: Szimy <simplymain2021@gmail.com>
+Date:   Tue Nov 11 19:30:58 2025 +0000
+
+    Updated app.jsx code
+
+[33mcommit 9e6abd28a23ab1ac6155d1f7539c33e304a4d4df[m
+Author: Szimy <simplymain2021@gmail.com>
+Date:   Tue Nov 11 19:23:27 2025 +0000
+
+    Renamed one of the files
+
+[33mcommit 234879ac348bead18e21307c767539e3da7088b2[m
+Author: Szimy <simplymain2021@gmail.com>
+Date:   Tue Oct 14 14:53:08 2025 +0100
+
+    Finalizing file rename from BackgroundMusic to SiteEntryManager
+
+[33mcommit c85789b1f85853b7a5843fd4ee69e0e0ff3ab159[m
+Author: Szimy <simplymain2021@gmail.com>
+Date:   Tue Oct 14 14:37:29 2025 +0100
+
+    Make a enter site manager
+
+[33mcommit d97b6fecc9205731fe963f885fd233dc13f5c876[m
+Author: Szimy <simplymain2021@gmail.com>
+Date:   Tue Oct 14 14:19:39 2025 +0100
+
+    Changed font of audio text
+
+[33mcommit c4e0983dea65f8da182bf6763e317d14a748f875[m
+Author: Szimy <simplymain2021@gmail.com>
+Date:   Tue Oct 14 14:05:24 2025 +0100
+
+    Another attempt to fix audio not playing
+
+[33mcommit 6ea54c832f53b1c04838c30b039c55b62dfd6699[m
+Author: Szimy <simplymain2021@gmail.com>
+Date:   Tue Oct 14 14:00:42 2025 +0100
+
+    Fixed audio path and interaction logic
+
+[33mcommit 0b1e2bad1b1d5f6751b7215a84641755fc82831e[m
+Author: Szimy <simplymain2021@gmail.com>
+Date:   Sun Oct 12 23:31:50 2025 +0100
+
+    Fix: Final deployment path, sizing for src-based image, and audio interaction fix
+
+[33mcommit 9f7156c88d9a062a001a3d79cdbcc610b15e2c02[m
+Author: Szimy <simplymain2021@gmail.com>
+Date:   Sun Oct 12 23:24:11 2025 +0100
+
+    Fix: Corrected homepage URL for GitHub Pages deployment
+
+[33mcommit 7d0b97fab378a3b44a371e06b02233544e9a2e49[m
+Author: Szimy <simplymain2021@gmail.com>
+Date:   Sun Oct 12 23:13:46 2025 +0100
+
+    Initial commit of the coming soon page
