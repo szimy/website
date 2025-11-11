@@ -8,7 +8,7 @@ const techLogos = [
   { src: `${import.meta.env.BASE_URL}gsblue.png`, alt: "GS Blue", href: "https://discord.gg/ZBQezgQEpy"} 
 ];
 //Background Music import
-import BackgroundMusic from './components/BackgroundMusic';
+import SiteEntryManager from './components/SiteEntryManager';
 // src/App.jsx
 import './App.css'; 
 // You will need this line to import your custom Google Font styles
