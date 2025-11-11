@@ -1,7 +1,7 @@
 import React, { useState } from 'react'; // Added missing React/useState import
 import { loadSlim } from 'tsparticles-slim'; // Added missing loadSlim import
 import LogoLoop from './components/LogoLoop';
-import SiteEntryManager from './components/SiteEntryManager'; // Keeps the current name
+import BackgroundMusic from './components/BackgroundMusic'; 
 import Particles from './components/Particles';
 
 // Icon Imports
